@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><FrameworkReference Include="Microsoft.AspNetCore.App" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../PaymentHub.Simple.Library/PaymentHub.Simple.Library.csproj" />
+  </ItemGroup>
+</Project>

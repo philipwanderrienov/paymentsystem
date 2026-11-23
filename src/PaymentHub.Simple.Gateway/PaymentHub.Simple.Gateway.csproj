@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../PaymentHub.Simple.Adapter.Rtgs/PaymentHub.Simple.Adapter.Rtgs.csproj" />
+    <ProjectReference Include="../PaymentHub.Simple.Microservice/PaymentHub.Simple.Microservice.csproj" />
+    <ProjectReference Include="../PaymentHub.Simple.Microservice.Rtgs/PaymentHub.Simple.Microservice.Rtgs.csproj" />
+  </ItemGroup>
+</Project>

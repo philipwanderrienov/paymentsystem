@@ -1,0 +1,30 @@
+using System.Text.Json.Serialization;
+using PaymentHub.Simple.Adapter.Rtgs;
+using PaymentHub.Simple.Library;
+using PaymentHub.Simple.Microservice;
+using PaymentHub.Simple.Microservice.Rtgs;
+using PaymentHub.Simple.Repository;
+using PaymentHub.Simple.Service;
+using PaymentHub.Simple.TransferFile;
+
+var builder = WebApplication.CreateBuilder(args);
+var options = new DemoOptions();
+builder.Configuration.GetSection("Demo").Bind(options);
+options.Validate();
+var paths = new DataPaths(options.DataDirectory);
+foreach (var folder in new[] { "incoming", "completed", "failed", "cbs-outbox", "remote-inbox", "remote-outbox", "transactions" })
+    paths.Folder(folder);
+builder.Services.AddSingleton(options);
+builder.Services.AddSingleton(paths);
+builder.Services.AddSingleton<IPaymentRepository, JsonPaymentRepository>();
+builder.Services.AddSingleton<IVictoriaBank, VictoriaSimulator>();
+builder.Services.AddSingleton<PaymentFlow>();
+builder.Services.AddSingleton<LocalFileTransfer>();
+builder.Services.AddHostedService<VictoriaAdapter>();
+builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+var app = builder.Build();
+app.MapSystemEndpoints();
+app.MapPaymentEndpoints();
+app.MapGet("/", () => Results.Ok(new { name = "PaymentHub Simple Victoria RTGS", health = "/health", payments = "/api/rtgs/payments" }));
+app.Logger.LogInformation("Victoria demo data directory: {DataDirectory}", paths.Root);
+app.Run();

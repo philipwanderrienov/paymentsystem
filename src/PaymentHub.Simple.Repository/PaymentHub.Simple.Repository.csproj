@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../PaymentHub.Simple.Library.Rtgs/PaymentHub.Simple.Library.Rtgs.csproj" />
+  </ItemGroup>
+</Project>
